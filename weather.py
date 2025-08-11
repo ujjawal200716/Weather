@@ -17,8 +17,7 @@ def unix_to_ist(unix_timestamp):
     ist_datetime = utc_datetime.astimezone(ist_timezone)
     return  ist_datetime.strftime("%H:%M")
 def add(e)  :
-     global l1,l2,l3,e1,la
-     la.destroy()
+     global l1,l2,l3,e1
      l1.destroy()
      canvas.destroy()
      e1=tk.Entry(win,width=41,font=("arial", 19),bg='white')
@@ -31,6 +30,10 @@ def show(e) :
     api_key='3b98271fc0fe8a28a43944faa37ddcf9'
     res2= requests.get(f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric")
     temp2=res2.json()
+    if temp2.get("cod") != 200:
+            messagebox.showerror("Error", temp2.get("message", "City not found"))
+            e1.delete(0, tk.END)
+            return
     if 6 <= hour and hour < 9:
               img = Image.open("earlymorning.png").resize((400, 650))
               bg_img = ImageTk.PhotoImage(img)
@@ -495,11 +498,7 @@ def show(e) :
              canvas.create_text(315, 480, text=f"Co2 level", font=("Arial", 12),fill="grey")
              canvas.create_text(310, 500, text=f"{int(co2)}ppm", font=("Arial", 12),fill="white") 
              
-             rect7=canvas.create_rectangle(25,543,375,613, fill="#F6EC6C", outline="grey", width=2) 
-             t1=res.json()['sys']['sunrise']
-             t2=res.json()['sys']['sunset']
-             canvas.create_text(70, 563, text= unix_to_ist(t2), font=("Arial", 10), fill="white")
-             canvas.create_text(327, 563, text= unix_to_ist(t1), font=("Arial", 10), fill="white")
+             rect7=canvas.create_rectangle(25,543,375,613, fill="#FF7D05", outline="grey", width=2) 
              t1=res.json()['sys']['sunrise']
              t2=res.json()['sys']['sunset']
              canvas.create_text(70, 563, text= unix_to_ist(t1), font=("Arial", 10), fill="white")
