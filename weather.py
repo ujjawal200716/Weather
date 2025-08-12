@@ -27,9 +27,13 @@ def show(e) :
     global bg_img, canvas,l1, l2, l3,e1,la,temp,temp1,name
 
     city=e1.get()
+    if city == "":
+            messagebox.showerror("Error", "City not found")
+            return
     api_key='3b98271fc0fe8a28a43944faa37ddcf9'
     res2= requests.get(f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric")
     temp2=res2.json()
+   
     if temp2.get("cod") != 200:
             messagebox.showerror("Error", temp2.get("message", "City not found"))
             e1.delete(0, tk.END)
